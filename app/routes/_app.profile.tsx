@@ -35,7 +35,7 @@ export default function ProfileRoute() {
     }
 
     return (
-        <div className="px-4">
+        <div className="p-4">
             <h1 className="text-4xl mb-4 font-bold">Profile</h1>
             <ul className="flex flex-col gap-4">
                 <ProfileListItem label="Username" value={profile.username} />

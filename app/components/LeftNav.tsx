@@ -17,7 +17,7 @@ export function LeftNav() {
 
     return (
         <div
-            className={`p-4 bg-white dark:bg-zinc-700 rounded-lg ${BORDER_COLORS}`}
+            className={`p-4 bg-white dark:bg-zinc-700 rounded-lg ${BORDER_COLORS} mt-4`}
         >
             <ul className="space-y-4">
                 {linkData.map(({ id, to, Icon, text }) => (

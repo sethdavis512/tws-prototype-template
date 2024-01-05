@@ -15,7 +15,9 @@ import { LinkButton } from './LinkButton';
 
 export function Header() {
     const location = useLocation();
-    const { theme, user } = useOutletContext<OutletContextValue>();
+    const outletContext = useOutletContext<OutletContextValue>();
+
+    const { theme, user } = outletContext;
     const logoutFetcher = useFetcher();
     const themeFetcher = useFetcher();
     const isThemeDark = theme === Theme.DARK;
@@ -25,7 +27,7 @@ export function Header() {
 
     return (
         <header
-            className={`bg-white dark:bg-zinc-700 col-span-full p-4 mb-4 ${BORDER_BOTTOM_COLORS}`}
+            className={`bg-white dark:bg-zinc-700 col-span-full p-4 ${BORDER_BOTTOM_COLORS}`}
         >
             <div className="flex flex-col md:flex-row justify-between items-center">
                 <ul>

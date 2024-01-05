@@ -19,7 +19,7 @@ export default function DashboardRoute() {
     const { profile } = useLoaderData<typeof loader>();
 
     return (
-        <div className="px-4">
+        <div className="p-4">
             <h1 className="text-4xl mb-4 font-bold">Dashboard</h1>
             {profile?.firstName && <p>Hi {profile?.firstName} 👋🏻</p>}
         </div>
