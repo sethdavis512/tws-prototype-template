@@ -68,7 +68,7 @@ export function Header() {
                             <span className="sr-only">
                                 Toggle to {isThemeDark ? 'light' : 'dark'} theme
                             </span>
-                            {isThemeDark ? <Sun /> : <Moon />}
+                            {isThemeDark ? <Moon /> : <Sun />}
                         </IconButton>
                     </themeFetcher.Form>
                 </div>
