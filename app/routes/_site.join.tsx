@@ -9,7 +9,6 @@ import { useEffect, useRef } from 'react';
 import { Button } from '~/components/Button';
 import { Input } from '~/components/Input';
 import { Label } from '~/components/Label';
-import { SiteLayout } from '~/components/SiteLayout';
 
 import { createUser, getUserByEmail } from '~/models/user.server';
 import { createUserSession, getUserId } from '~/session.server';
@@ -89,7 +88,7 @@ export default function JoinRoute() {
     }, [actionData]);
 
     return (
-        <SiteLayout>
+        <>
             <div className="mx-auto w-full max-w-md px-8 pt-8">
                 <h1 className="font-bold text-4xl mb-8">Join</h1>
                 <Form method="POST" className="space-y-6">
@@ -164,6 +163,6 @@ export default function JoinRoute() {
                     </div>
                 </Form>
             </div>
-        </SiteLayout>
+        </>
     );
 }
