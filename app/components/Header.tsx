@@ -1,9 +1,4 @@
-import {
-    Link,
-    useFetcher,
-    useLocation,
-    useOutletContext
-} from '@remix-run/react';
+import { Link, useFetcher, useOutletContext } from '@remix-run/react';
 import { DoorClosed, DoorOpen, Moon, Sun } from 'lucide-react';
 
 import { BORDER_BOTTOM_COLORS } from '~/constants';
@@ -11,10 +6,8 @@ import { Button } from './Button';
 import { IconButton } from './IconButton';
 import { OutletContextValue } from '~/root';
 import { Theme } from '~/utils/theme-provider';
-import { LinkButton } from './LinkButton';
 
 export function Header() {
-    const location = useLocation();
     const outletContext = useOutletContext<OutletContextValue>();
 
     const { theme, user } = outletContext;
@@ -23,7 +16,6 @@ export function Header() {
     const isThemeDark = theme === Theme.DARK;
 
     const isLoggedIn = user && user.id;
-    const isOutsideApp = ['/'].includes(location.pathname);
 
     return (
         <header
@@ -36,11 +28,6 @@ export function Header() {
                     </li>
                 </ul>
                 <div className="flex flex-col sm:flex-row items-center gap-2">
-                    {isLoggedIn && isOutsideApp && (
-                        <LinkButton variant="ghost" to="/dashboard">
-                            Dashboard
-                        </LinkButton>
-                    )}
                     {isLoggedIn ? (
                         <logoutFetcher.Form method="POST" action="/logout">
                             <Button

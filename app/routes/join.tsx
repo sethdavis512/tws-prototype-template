@@ -9,6 +9,7 @@ import { useEffect, useRef } from 'react';
 import { Button } from '~/components/Button';
 import { Input } from '~/components/Input';
 import { Label } from '~/components/Label';
+import { SiteLayout } from '~/components/SiteLayout';
 
 import { createUser, getUserByEmail } from '~/models/user.server';
 import { createUserSession, getUserId } from '~/session.server';
@@ -88,81 +89,89 @@ export default function JoinRoute() {
     }, [actionData]);
 
     return (
-        <>
-            <div className="mx-auto w-full max-w-md px-8 pt-8">
-                <h1 className="font-bold text-4xl mb-8">Join</h1>
-                <Form method="POST" className="space-y-6">
-                    <div>
-                        <Label htmlFor="email">Email address</Label>
-                        <div className="mt-1">
-                            <Input
-                                id="email"
-                                required
-                                // eslint-disable-next-line jsx-a11y/no-autofocus
-                                autoFocus={true}
-                                name="email"
-                                type="email"
-                                autoComplete="email"
-                                aria-invalid={
-                                    actionData?.errors?.email ? true : undefined
-                                }
-                                aria-describedby="email-error"
-                            />
-                            {actionData?.errors?.email ? (
-                                <div
-                                    className="pt-1 text-red-700"
-                                    id="email-error"
-                                >
-                                    {actionData.errors.email}
-                                </div>
-                            ) : null}
+        <SiteLayout>
+            <div className="col-span-full">
+                <div className="mx-auto w-full max-w-md px-8 pt-8">
+                    <h1 className="font-bold text-4xl mb-8">Join</h1>
+                    <Form method="POST" className="space-y-6">
+                        <div>
+                            <Label htmlFor="email">Email address</Label>
+                            <div className="mt-1">
+                                <Input
+                                    id="email"
+                                    required
+                                    // eslint-disable-next-line jsx-a11y/no-autofocus
+                                    autoFocus={true}
+                                    name="email"
+                                    type="email"
+                                    autoComplete="email"
+                                    aria-invalid={
+                                        actionData?.errors?.email
+                                            ? true
+                                            : undefined
+                                    }
+                                    aria-describedby="email-error"
+                                />
+                                {actionData?.errors?.email ? (
+                                    <div
+                                        className="pt-1 text-red-700"
+                                        id="email-error"
+                                    >
+                                        {actionData.errors.email}
+                                    </div>
+                                ) : null}
+                            </div>
                         </div>
-                    </div>
 
-                    <div>
-                        <Label htmlFor="password">Password</Label>
-                        <div className="mt-1">
-                            <Input
-                                id="password"
-                                name="password"
-                                type="password"
-                                autoComplete="new-password"
-                                aria-invalid={
-                                    actionData?.errors?.password
-                                        ? true
-                                        : undefined
-                                }
-                                aria-describedby="password-error"
-                            />
-                            {actionData?.errors?.password ? (
-                                <div
-                                    className="pt-1 text-red-700"
-                                    id="password-error"
-                                >
-                                    {actionData.errors.password}
-                                </div>
-                            ) : null}
+                        <div>
+                            <Label htmlFor="password">Password</Label>
+                            <div className="mt-1">
+                                <Input
+                                    id="password"
+                                    name="password"
+                                    type="password"
+                                    autoComplete="new-password"
+                                    aria-invalid={
+                                        actionData?.errors?.password
+                                            ? true
+                                            : undefined
+                                    }
+                                    aria-describedby="password-error"
+                                />
+                                {actionData?.errors?.password ? (
+                                    <div
+                                        className="pt-1 text-red-700"
+                                        id="password-error"
+                                    >
+                                        {actionData.errors.password}
+                                    </div>
+                                ) : null}
+                            </div>
                         </div>
-                    </div>
 
-                    <input type="hidden" name="redirectTo" value={redirectTo} />
-                    <Button type="submit">Create Account</Button>
-                    <div className="flex items-center justify-center">
-                        <div className="text-center text-sm text-gray-500">
-                            Already have an account?{' '}
-                            <Link
-                                className="text-amber-500"
-                                to={{
-                                    pathname: '/login',
-                                    search: searchParams.toString()
-                                }}
-                            >
-                                Log in
-                            </Link>
+                        <input
+                            type="hidden"
+                            name="redirectTo"
+                            value={redirectTo}
+                        />
+                        <Button type="submit">Create Account</Button>
+                        <div className="flex items-center justify-center">
+                            <div className="text-center text-sm text-gray-500">
+                                Already have an account?{' '}
+                                <Link
+                                    className="text-amber-500"
+                                    to={{
+                                        pathname: '/login',
+                                        search: searchParams.toString()
+                                    }}
+                                >
+                                    Log in
+                                </Link>
+                            </div>
                         </div>
-                    </div>
-                </Form>
+                    </Form>
+                </div>
             </div>
-        </>
+        </SiteLayout>
     );
 }
