@@ -1,4 +1,4 @@
-import type { LinksFunction, LoaderFunctionArgs } from '@remix-run/node';
+import type { LoaderFunctionArgs } from '@remix-run/node';
 import {
     Links,
     LiveReload,
@@ -11,20 +11,17 @@ import {
 } from '@remix-run/react';
 import { User } from '@prisma/client';
 
-import stylesheet from '~/tailwind.css';
 import { getUser } from '~/session.server';
 import { getThemeSession } from '~/utils/theme.server';
 import { Theme } from './utils/theme-provider';
 import { BACKGROUND_COLORS } from './constants';
 
+import './tailwind.css';
+
 export interface OutletContextValue {
     theme: Theme;
     user: User;
 }
-
-export const links: LinksFunction = () => [
-    { rel: 'stylesheet', href: stylesheet }
-];
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
     const themeSession = await getThemeSession(request);
