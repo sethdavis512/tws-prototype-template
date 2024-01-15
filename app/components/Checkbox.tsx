@@ -16,6 +16,14 @@ const checkboxVariants = cva({
             lg: 'text-lg',
             md: 'text-base',
             sm: 'text-sm'
+        },
+        intent: {
+            primary: '',
+            secondary: '',
+            success: '',
+            info: '',
+            warning: '',
+            alert: ''
         }
     },
     defaultVariants: {

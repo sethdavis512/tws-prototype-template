@@ -10,10 +10,8 @@ export default function IndexRoute() {
     return (
         <SiteLayout>
             <div className="col-span-full relative">
-                <div className="absolute top-0 right-0 bottom-0 left-0 bg-cover bg-center bg-[url('https://res.cloudinary.com/setholito/image/upload/v1650167213/unsplash/mj-tangonan-wKfTNWaDYgs-unsplash.jpg')]"></div>
-                <div className="absolute top-0 right-0 bottom-0 left-0 bg-gray-100 dark:bg-gray-900 opacity-85"></div>
-                <div className="relative flex flex-col items-center justify-center z-10 h-full">
-                    <h1 className="text-amber-500 dark:text-white font-bold text-5xl md:text-8xl drop-shadow-2xl mb-10">
+                <div className="relative flex flex-col items-center justify-center h-full">
+                    <h1 className="text-primary-500 dark:text-primary-500 font-bold text-5xl md:text-8xl drop-shadow-2xl mb-10">
                         {`Howdy y'all 🤠`}
                     </h1>
                     {isLoggedIn ? (

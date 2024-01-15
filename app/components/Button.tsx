@@ -27,6 +27,14 @@ const buttonVariants = cva({
             md: 'h-10 px-4 text-base',
             sm: 'h-8 px-3 text-sm',
             xs: 'h-6 px-2 text-xs'
+        },
+        intent: {
+            primary: '',
+            secondary: '',
+            success: '',
+            info: '',
+            warning: '',
+            alert: ''
         }
     },
     defaultVariants: {

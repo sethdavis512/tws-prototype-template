@@ -11,17 +11,17 @@ export async function loader({ request }: LoaderFunctionArgs) {
     const profile = await getProfileById(user.profileId);
 
     return json({
-        profile
+        firstName: profile?.firstName
     });
 }
 
 export default function DashboardRoute() {
-    const { profile } = useLoaderData<typeof loader>();
+    const { firstName } = useLoaderData<typeof loader>();
 
     return (
         <div className="p-4">
             <h1 className="text-4xl mb-4 font-bold">Dashboard</h1>
-            {profile?.firstName && <p>Hi {profile?.firstName} 👋🏻</p>}
+            {firstName && <p>Hi {firstName} 👋🏻</p>}
         </div>
     );
 }

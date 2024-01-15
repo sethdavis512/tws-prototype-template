@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import type {
     ActionFunctionArgs,
     LoaderFunctionArgs,
@@ -5,54 +6,52 @@ import type {
 } from '@remix-run/node';
 import { json, redirect } from '@remix-run/node';
 import { Form, Link, useActionData, useSearchParams } from '@remix-run/react';
-import { useEffect, useRef } from 'react';
+import { Submission, useForm } from '@conform-to/react';
+import { parse } from '@conform-to/zod';
+import { z } from 'zod';
+
 import { Button } from '~/components/Button';
 import { Checkbox } from '~/components/Checkbox';
 import { Input } from '~/components/Input';
 import { Label } from '~/components/Label';
 import { SiteLayout } from '~/components/SiteLayout';
-import { TEXT_LINK_COLORS } from '~/constants';
+import { TEXT_LINK_COLORS, Urls } from '~/constants';
 
 import { verifyLogin } from '~/models/user.server';
 import { createUserSession, getUserId } from '~/session.server';
-import { safeRedirect, validateEmail } from '~/utils/general.server';
+import { safeRedirect } from '~/utils/general.server';
+
+type LoginFormSubmission = Submission<{ email: string; password: string }>;
+
+const schema = z.object({
+    email: z
+        .string({ required_error: 'Email is required' })
+        .email('Email is invalid'),
+    password: z.string({ required_error: 'Password is required' })
+});
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
     const userId = await getUserId(request);
-    if (userId) return redirect('/dashboard');
+    if (userId) return redirect(Urls.DASHBOARD);
 
     return json({});
 };
 
 export const action = async ({ request }: ActionFunctionArgs) => {
     const formData = await request.formData();
-    const email = formData.get('email');
-    const password = formData.get('password');
-    const redirectTo = safeRedirect(formData.get('redirectTo'), '/dashboard');
+    const submission = parse(formData, { schema });
+
+    if (submission.intent !== 'submit' || !submission.value) {
+        return json(submission);
+    }
+
+    const redirectTo = safeRedirect(formData.get('redirectTo'), Urls.DASHBOARD);
     const remember = formData.get('remember');
 
-    if (!validateEmail(email)) {
-        return json(
-            { errors: { email: 'Email is invalid', password: null } },
-            { status: 400 }
-        );
-    }
-
-    if (typeof password !== 'string' || password.length === 0) {
-        return json(
-            { errors: { email: null, password: 'Password is required' } },
-            { status: 400 }
-        );
-    }
-
-    if (password.length < 8) {
-        return json(
-            { errors: { email: null, password: 'Password is too short' } },
-            { status: 400 }
-        );
-    }
-
-    const user = await verifyLogin(email, password);
+    const user = await verifyLogin(
+        submission.value.email,
+        submission.value.password
+    );
 
     if (!user) {
         return json(
@@ -72,19 +71,28 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 export const meta: MetaFunction = () => [{ title: 'Login' }];
 
 export default function LoginPage() {
+    const lastSubmission = useActionData<typeof action>();
+
+    const [form, { email, password }] = useForm({
+        lastSubmission: lastSubmission as LoginFormSubmission,
+        onValidate({ formData }) {
+            return parse(formData, { schema });
+        }
+    });
+
     const [searchParams] = useSearchParams();
     const redirectTo = searchParams.get('redirectTo') || '/';
-    const actionData = useActionData<typeof action>();
+
     const emailRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
-        if (actionData?.errors?.email) {
+        if (email.error) {
             emailRef.current?.focus();
-        } else if (actionData?.errors?.password) {
+        } else if (password.error) {
             passwordRef.current?.focus();
         }
-    }, [actionData]);
+    }, [email.error, password.error]);
 
     return (
         <SiteLayout>
@@ -92,7 +100,11 @@ export default function LoginPage() {
                 <div className="flex flex-col justify-center">
                     <div className="mx-auto w-full max-w-md p-8">
                         <h1 className="font-bold text-4xl mb-8">Login</h1>
-                        <Form method="post" className="space-y-6">
+                        <Form
+                            method="post"
+                            className="space-y-6"
+                            {...form.props}
+                        >
                             <div>
                                 <Label htmlFor="email">Email address</Label>
                                 <div className="mt-1">
@@ -100,23 +112,21 @@ export default function LoginPage() {
                                         id="email"
                                         required
                                         // eslint-disable-next-line jsx-a11y/no-autofocus
-                                        autoFocus={true}
+                                        autoFocus
                                         name="email"
                                         type="email"
                                         autoComplete="email"
                                         aria-invalid={
-                                            actionData?.errors?.email
-                                                ? true
-                                                : undefined
+                                            email.error ? true : undefined
                                         }
                                         aria-describedby="email-error"
                                     />
-                                    {actionData?.errors?.email ? (
+                                    {email.error ? (
                                         <div
                                             className="pt-1 text-red-700"
                                             id="email-error"
                                         >
-                                            {actionData.errors.email}
+                                            {email.error}
                                         </div>
                                     ) : null}
                                 </div>
@@ -131,23 +141,20 @@ export default function LoginPage() {
                                         type="password"
                                         autoComplete="current-password"
                                         aria-invalid={
-                                            actionData?.errors?.password
-                                                ? true
-                                                : undefined
+                                            password.error ? true : undefined
                                         }
                                         aria-describedby="password-error"
                                     />
-                                    {actionData?.errors?.password ? (
+                                    {password.error ? (
                                         <div
                                             className="pt-1 text-red-700"
                                             id="password-error"
                                         >
-                                            {actionData.errors.password}
+                                            {password.error}
                                         </div>
                                     ) : null}
                                 </div>
                             </div>
-
                             <input
                                 type="hidden"
                                 name="redirectTo"
@@ -166,7 +173,7 @@ export default function LoginPage() {
                                     <Link
                                         className={TEXT_LINK_COLORS}
                                         to={{
-                                            pathname: '/join',
+                                            pathname: Urls.JOIN,
                                             search: searchParams.toString()
                                         }}
                                     >

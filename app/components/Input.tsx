@@ -23,6 +23,14 @@ const inputVariants = cva({
             md: 'h-10 rounded-md px-4 text-base',
             sm: 'h-8 rounded px-3 text-sm',
             xs: 'h-6 rounded px-2 text-xs'
+        },
+        intent: {
+            primary: '',
+            secondary: '',
+            success: '',
+            info: '',
+            warning: '',
+            alert: ''
         }
     },
     defaultVariants: {
