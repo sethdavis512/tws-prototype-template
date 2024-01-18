@@ -19,7 +19,27 @@ Basic template to springboard projects. Very similar to the [Indie Stack](https:
 
 ## Local development
 
-From your terminal:
+Install dependencies:
+
+```sh
+npm i
+```
+
+Change the `.env.example` filename to `.env`.  
+Update initial user data (optional)
+
+```sh
+INITIAL_USER_EMAIL="user@mail.com"
+INITIAL_USER_PASSWORD="banana"
+```
+
+Run the `seed` script:
+
+```
+npm run seed
+```
+
+Start the app:
 
 ```sh
 npm run dev
