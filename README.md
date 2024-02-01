@@ -71,3 +71,7 @@ Make sure to deploy the output of `remix build`
 
 -   `build/`
 -   `public/build/`
+
+### Thank you
+
+Big shout out to "Raj talks tech" for your [Remix + Supabase video](https://www.youtube.com/watch?v=ocWc_FFc5jE)

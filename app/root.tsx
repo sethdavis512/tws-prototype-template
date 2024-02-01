@@ -7,50 +7,77 @@ import {
     Scripts,
     ScrollRestoration,
     json,
-    useLoaderData
+    useLoaderData,
+    useNavigate
 } from '@remix-run/react';
-import { User } from '@prisma/client';
+import { RouterProvider } from 'react-aria-components';
 
-import { getUser } from '~/session.server';
 import { getThemeSession } from '~/utils/theme.server';
-import { Theme } from './utils/theme-provider';
-import { BACKGROUND_COLORS } from './constants';
+import { BACKGROUND_COLORS } from '~/constants';
+import {
+    getSupabaseEnv,
+    getSupabaseWithSessionAndHeaders
+} from './utils/supabase.server';
+
+import { useSupabase } from './utils/supabase';
 
 import './tailwind.css';
 
-export interface OutletContextValue {
-    theme: Theme;
-    user: User;
+export function links() {
+    return [
+        {
+            rel: 'preconnect',
+            href: 'https://fonts.googleapis.com'
+        },
+        {
+            rel: 'preconnect',
+            href: 'https://fonts.gstatic.com'
+        }
+    ];
 }
 
-export const loader = async ({ request }: LoaderFunctionArgs) => {
+export async function loader({ request }: LoaderFunctionArgs) {
     const themeSession = await getThemeSession(request);
-    const user = await getUser(request);
-
-    return json({
-        theme: themeSession.getTheme(),
-        user
+    const { serverSession, headers } = await getSupabaseWithSessionAndHeaders({
+        request
     });
-};
+    const domainUrl = process.env.DOMAIN_URL!;
+    const env = getSupabaseEnv();
+
+    return json(
+        { serverSession, env, domainUrl, theme: themeSession.getTheme() },
+        { headers }
+    );
+}
 
 export default function App() {
-    const data = useLoaderData<typeof loader>();
+    const { env, serverSession, domainUrl, theme } =
+        useLoaderData<typeof loader>();
+    const { supabase } = useSupabase({ env, serverSession });
+    const navigate = useNavigate(); // https://react-spectrum.adobe.com/react-aria/routing.html#remix
+
+    const htmlClassName = `h-full ${theme}`;
+    const bodyClassName = `min-h-full ${BACKGROUND_COLORS}`;
+
+    const isLoggedIn = !!serverSession;
 
     return (
-        <html lang="en" className={`h-full ${data.theme}`}>
+        <html lang="en" className={htmlClassName}>
             <head>
                 <meta charSet="utf-8" />
                 <meta
                     name="viewport"
                     content="width=device-width, initial-scale=1"
                 />
-                <link rel="preconnect" href="https://fonts.googleapis.com" />
-                <link rel="preconnect" href="https://fonts.gstatic.com" />
                 <Meta />
                 <Links />
             </head>
-            <body className={`min-h-full ${BACKGROUND_COLORS}`}>
-                <Outlet context={{ theme: data.theme, user: data.user }} />
+            <body className={bodyClassName}>
+                <RouterProvider navigate={navigate}>
+                    <Outlet
+                        context={{ supabase, domainUrl, theme, isLoggedIn }}
+                    />
+                </RouterProvider>
                 <ScrollRestoration />
                 <Scripts />
                 <LiveReload />
