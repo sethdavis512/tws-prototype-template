@@ -25,12 +25,23 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
 export default function LoginPage() {
     const { supabase, domainUrl } = useOutletContext<SupabaseOutletContext>();
+    const redirectTo = `${domainUrl}/api/auth/callback`;
+    console.log({ redirectTo });
 
-    const handleSignIn = async () => {
+    const handleGitHubSignIn = async () => {
         await supabase.auth.signInWithOAuth({
             provider: 'github',
             options: {
-                redirectTo: `${domainUrl}/api/auth/callback`
+                redirectTo
+            }
+        });
+    };
+
+    const handleGoogleSignIn = async () => {
+        await supabase.auth.signInWithOAuth({
+            provider: 'google',
+            options: {
+                redirectTo
             }
         });
     };
@@ -41,9 +52,14 @@ export default function LoginPage() {
                 <div className="flex flex-col justify-center">
                     <div className="mx-auto w-full max-w-md p-8">
                         <h1 className="font-bold text-4xl mb-8">Login</h1>
-                        <Button onPress={handleSignIn}>
-                            Sign in with GitHub
-                        </Button>
+                        <div className="flex flex-col gap-3">
+                            <Button onPress={handleGitHubSignIn}>
+                                Sign in with GitHub
+                            </Button>
+                            <Button onPress={handleGoogleSignIn}>
+                                Sign in with Google
+                            </Button>
+                        </div>
                     </div>
                 </div>
             </div>
