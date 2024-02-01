@@ -26,7 +26,6 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 export default function LoginPage() {
     const { supabase, domainUrl } = useOutletContext<SupabaseOutletContext>();
     const redirectTo = `${domainUrl}/api/auth/callback`;
-    console.log({ redirectTo });
 
     const handleGitHubSignIn = async () => {
         await supabase.auth.signInWithOAuth({
