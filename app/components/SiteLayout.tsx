@@ -11,7 +11,7 @@ interface SiteLayoutProps {
 
 export function SiteLayout({ children }: SiteLayoutProps) {
     return (
-        <Grid className="bg-zinc-100 dark:bg-zinc-800 h-screen grid-rows-[auto_1fr_auto]">
+        <Grid className="bg-gray-100 dark:bg-gray-800 h-screen grid-rows-[auto_1fr_auto]">
             <Header />
             {children}
             <Footer />
