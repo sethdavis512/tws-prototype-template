@@ -3,7 +3,8 @@ export enum Urls {
     DASHBOARD = '/dashboard',
     LOGIN = '/login',
     LOGOUT = '/logout',
-    JOIN = '/join'
+    JOIN = '/join',
+    PROFILE = '/dashboard/profile'
 }
 
 export const BACKGROUND_COLORS =

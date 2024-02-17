@@ -9,7 +9,7 @@
         "start": "remix-serve ./build/server/index.js",
         "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
         "typecheck": "tsc",
-        "gen:types": "supabase gen types typescript --project-id kzfpaqudnqwcqosbbfjp > db_types.ts"
+        "gen:types": "supabase gen types typescript --project-id kzfpaqudnqwcqosbbfjp > generated-db-types.ts"
     },
     "eslintIgnore": [
         "/node_modules",
@@ -38,6 +38,7 @@
         "tailwindcss-animate": "^1.0.7",
         "tailwindcss-react-aria-components": "^1.0.0-beta.1",
         "tiny-invariant": "^1.3.1",
+        "type-fest": "^4.10.2",
         "zod": "^3.22.4"
     },
     "devDependencies": {

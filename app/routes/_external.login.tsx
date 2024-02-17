@@ -3,7 +3,6 @@ import { json, redirect } from '@remix-run/node';
 import { useOutletContext } from '@remix-run/react';
 
 import { Button } from '~/components/Button';
-import { SiteLayout } from '~/components/SiteLayout';
 import { Urls } from '~/constants';
 
 import { getSupabaseWithSessionAndHeaders } from '~/utils/supabase.server';
@@ -23,8 +22,15 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     return json({ success: true }, { headers });
 };
 
-export default function LoginPage() {
-    const { supabase, domainUrl } = useOutletContext<SupabaseOutletContext>();
+export default function LoginRoute() {
+    const context = useOutletContext<SupabaseOutletContext>();
+
+    if (!context) {
+        return null;
+    }
+
+    const { supabase, domainUrl } = context;
+
     const redirectTo = `${domainUrl}/api/auth/callback`;
 
     const handleGitHubSignIn = async () => {
@@ -46,12 +52,12 @@ export default function LoginPage() {
     };
 
     return (
-        <SiteLayout>
+        <>
             <div className="col-span-full">
-                <div className="flex flex-col justify-center">
-                    <div className="mx-auto w-full max-w-md p-8">
-                        <h1 className="font-bold text-4xl mb-8">Login</h1>
-                        <p className="mb-4">Choose a login method</p>
+                <div className="flex flex-col justify-center h-full">
+                    <div className="mx-auto w-full max-w-md p-8 border rounded-lg">
+                        <h1 className="font-bold text-4xl mb-4">Login</h1>
+                        <p className="mb-8">Choose a login method</p>
                         <div className="flex gap-2">
                             <Button
                                 onPress={handleGitHubSignIn}
@@ -91,6 +97,6 @@ export default function LoginPage() {
                     </div>
                 </div>
             </div>
-        </SiteLayout>
+        </>
     );
 }

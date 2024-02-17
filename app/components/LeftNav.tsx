@@ -1,6 +1,6 @@
 import { NavLink } from '@remix-run/react';
-import { Gauge } from 'lucide-react';
-import { BORDER_COLORS } from '~/constants';
+import { Gauge, User2 } from 'lucide-react';
+import { BORDER_COLORS, Urls } from '~/constants';
 
 export function LeftNav() {
     const navLinkClassName = ({ isActive }: { isActive: boolean }): string =>
@@ -11,8 +11,12 @@ export function LeftNav() {
         }`;
 
     const linkData = [
-        { id: 1, to: '/dashboard', Icon: Gauge, text: 'Dashboard' }
-    ];
+        { to: Urls.DASHBOARD, Icon: Gauge, text: 'Dashboard' },
+        { to: Urls.PROFILE, Icon: User2, text: 'Profile' }
+    ].map((item, index) => ({
+        ...item,
+        id: index
+    }));
 
     return (
         <div
@@ -21,7 +25,7 @@ export function LeftNav() {
             <ul className="space-y-4">
                 {linkData.map(({ id, to, Icon, text }) => (
                     <li key={id}>
-                        <NavLink to={to} className={navLinkClassName}>
+                        <NavLink to={to} className={navLinkClassName} end>
                             <Icon />
                             {text}
                         </NavLink>

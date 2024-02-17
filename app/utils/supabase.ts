@@ -3,7 +3,7 @@ import { useRevalidator } from '@remix-run/react';
 import { createBrowserClient } from '@supabase/ssr';
 import type { Session, SupabaseClient } from '@supabase/supabase-js';
 
-import type { Database } from '../../db_types';
+import type { Database } from '../../generated-db-types';
 import { Theme } from './theme-provider';
 
 export type TypedSupabaseClient = SupabaseClient<Database>;
