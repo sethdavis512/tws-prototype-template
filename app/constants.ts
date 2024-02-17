@@ -8,7 +8,7 @@ export enum Urls {
 }
 
 export const BACKGROUND_COLORS =
-    'bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200';
+    'bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200';
 
 export const BACKGROUND_HOVER_COLORS =
     'hover:bg-gray-200 hover:dark:bg-gray-600';

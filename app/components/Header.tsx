@@ -20,7 +20,7 @@ export function Header() {
 
     return (
         <header
-            className={`bg-white dark:bg-gray-700 col-span-full p-4 ${BORDER_BOTTOM_COLORS}`}
+            className={`bg-white dark:bg-gray-900 col-span-full p-4 ${BORDER_BOTTOM_COLORS}`}
         >
             <div className="flex flex-col md:flex-row justify-between items-center">
                 <ul>

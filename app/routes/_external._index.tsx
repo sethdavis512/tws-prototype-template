@@ -16,9 +16,9 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
 export default function IndexRoute() {
     return (
-        <div className="col-span-full relative">
-            <div className="relative flex flex-col items-center justify-center h-full">
-                <h1 className="text-primary-500 dark:text-primary-500 font-bold text-5xl md:text-8xl drop-shadow-2xl mb-10">
+        <div className="col-span-full">
+            <div className="flex flex-col items-center justify-center h-full">
+                <h1 className="text-black dark:text-white font-bold text-5xl md:text-8xl drop-shadow-2xl mb-10">
                     {`Welcome`}
                 </h1>
             </div>

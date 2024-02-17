@@ -3,7 +3,7 @@ import { json, redirect } from '@remix-run/node';
 import { useOutletContext } from '@remix-run/react';
 
 import { Button } from '~/components/Button';
-import { Urls } from '~/constants';
+import { BORDER_COLORS, Urls } from '~/constants';
 
 import { getSupabaseWithSessionAndHeaders } from '~/utils/supabase.server';
 import { SupabaseOutletContext } from '~/utils/supabase';
@@ -55,7 +55,9 @@ export default function LoginRoute() {
         <>
             <div className="col-span-full">
                 <div className="flex flex-col justify-center h-full">
-                    <div className="mx-auto w-full max-w-md p-8 border rounded-lg">
+                    <div
+                        className={`mx-auto w-full max-w-md p-8 border ${BORDER_COLORS} rounded-lg`}
+                    >
                         <h1 className="font-bold text-4xl mb-4">Login</h1>
                         <p className="mb-8">Choose a login method</p>
                         <div className="flex gap-2">
