@@ -25,7 +25,10 @@ export function Header() {
             <div className="flex flex-col md:flex-row justify-between items-center">
                 <ul>
                     <li>
-                        <Link to="/">{`<TechWithSeth/>`}</Link>
+                        <Link
+                            to="/"
+                            className="font-bold rounded-full bg-gray-200 dark:bg-gray-700 px-4 py-2"
+                        >{`<TWS/>`}</Link>
                     </li>
                 </ul>
                 <div className="flex flex-col sm:flex-row items-center gap-2">
