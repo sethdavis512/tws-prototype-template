@@ -1,12 +1,12 @@
 import type { LoaderFunctionArgs, MetaFunction } from '@remix-run/node';
 import { json, redirect } from '@remix-run/node';
-import { useOutletContext } from '@remix-run/react';
 
 import { Button } from '~/components/Button';
 import { BORDER_COLORS, Urls } from '~/constants';
 
 import { getSupabaseWithSessionAndHeaders } from '~/utils/supabase.server';
-import { SupabaseOutletContext } from '~/utils/supabase';
+import { useSupabase } from '~/utils/supabase';
+import { useRootData } from '~/hooks/useRootData';
 
 export const meta: MetaFunction = () => [{ title: 'Login' }];
 
@@ -23,13 +23,8 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 };
 
 export default function LoginRoute() {
-    const context = useOutletContext<SupabaseOutletContext>();
-
-    if (!context) {
-        return null;
-    }
-
-    const { supabase, domainUrl } = context;
+    const { domainUrl, env, serverSession } = useRootData();
+    const { supabase } = useSupabase({ env, serverSession });
 
     const redirectTo = `${domainUrl}/api/auth/callback`;
 

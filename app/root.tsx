@@ -1,7 +1,6 @@
 import type { LoaderFunctionArgs } from '@remix-run/node';
 import {
     Links,
-    LiveReload,
     Meta,
     Outlet,
     Scripts,
@@ -45,7 +44,12 @@ export async function loader({ request }: LoaderFunctionArgs) {
     const env = getSupabaseEnv();
 
     return json(
-        { serverSession, env, domainUrl, theme: themeSession.getTheme() },
+        {
+            serverSession,
+            env,
+            domainUrl,
+            theme: themeSession.getTheme()
+        },
         { headers }
     );
 }
@@ -80,7 +84,6 @@ export default function App() {
                 </RouterProvider>
                 <ScrollRestoration />
                 <Scripts />
-                <LiveReload />
             </body>
         </html>
     );
