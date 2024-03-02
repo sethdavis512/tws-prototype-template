@@ -25,6 +25,11 @@ import './tailwind.css';
 export function links() {
     return [
         {
+            rel: 'icon',
+            href: '/favicon.svg',
+            type: 'image/svg+xml'
+        },
+        {
             rel: 'preconnect',
             href: 'https://fonts.googleapis.com'
         },
