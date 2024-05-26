@@ -15,7 +15,6 @@ interface UseRootDataResponse {
 
 export const useRootData = () => {
     const [rootRoute] = useMatches();
-    console.log({ 'rootRoute.data': rootRoute.data });
 
     return rootRoute.data as UseRootDataResponse;
 };
